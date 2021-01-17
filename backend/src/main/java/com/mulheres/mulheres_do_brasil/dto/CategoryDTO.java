@@ -1,4 +1,4 @@
-package com.mulheres.mulheres_do_brasil.entities.dto;
+package com.mulheres.mulheres_do_brasil.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ public class CategoryDTO implements Serializable{
 	public CategoryDTO(Category entity) {
 		id = entity.getId();
 		nome = entity.getNome();
-		institutions = entity.getInstitutions();
 	}
 	
 	public Integer getId() {
@@ -44,7 +43,5 @@ public class CategoryDTO implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public List<Institution> getInstitutions(){
-		return institutions;
-	}
+	
 }

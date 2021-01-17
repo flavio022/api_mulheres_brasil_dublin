@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.mulheres.mulheres_do_brasil.entities.dto.CategoryDTO;
+import com.mulheres.mulheres_do_brasil.dto.CategoryDTO;
 import com.mulheres.mulheres_do_brasil.services.CategoryService;
 
 @RestController

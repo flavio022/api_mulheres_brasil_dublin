@@ -22,10 +22,7 @@ public class Category implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	
-	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-	private List<Institution>  institutions = new ArrayList<>();
-	
+
 	public Category() {
 
 	}
@@ -50,12 +47,7 @@ public class Category implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public List<Institution> getInstitutions(){
-		return institutions;
-	}
-	public void setInstitutions(List<Institution> institutions) {
-		this.institutions = institutions;
-	}
+
 	
 	@Override
 	public int hashCode() {

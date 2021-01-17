@@ -1,15 +1,17 @@
 package com.mulheres.mulheres_do_brasil.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_institution")
@@ -22,19 +24,18 @@ public class Institution implements Serializable {
 	private Integer id;
 	private String nome;
 	
-
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	private Category category;
+	@ManyToMany()
+	@JoinTable(name = "tb_category_institution", 
+	joinColumns = @JoinColumn(name = "institution_id"),
+	inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> categories = new HashSet<>();
 	
 	public Institution() {
 		
 	}
-	public Institution(Integer id,String nome,Category category) {
+	public Institution(Integer id,String nome) {
 		this.id = id;
 		this.nome = nome;
-		this.category = category;
 	}
 	
 	public Integer getId() {
@@ -50,13 +51,9 @@ public class Institution implements Serializable {
 		this.nome = nome;
 	}
 	
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
+	public Set<Category> getCategory() {
+		return categories;
+	}	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

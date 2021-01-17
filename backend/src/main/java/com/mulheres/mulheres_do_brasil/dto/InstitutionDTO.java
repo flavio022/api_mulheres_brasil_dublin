@@ -1,8 +1,14 @@
-package com.mulheres.mulheres_do_brasil.entities.dto;
+package com.mulheres.mulheres_do_brasil.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import com.mulheres.mulheres_do_brasil.entities.Category;
 import com.mulheres.mulheres_do_brasil.entities.Institution;
@@ -12,15 +18,21 @@ public class InstitutionDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
-	private Category category;
+	
+	@ManyToMany()
+	@JoinTable(name = "tb_category_institution", 
+	joinColumns = @JoinColumn(name = "category_id"),
+	inverseJoinColumns = @JoinColumn(name = "institution_id"))
+	private List<CategoryDTO> categories = new ArrayList<>();
 
 	public InstitutionDTO() {
 		
 	}
+	
 	public InstitutionDTO(Institution obj) {
 		this.id = obj.getId();
 		this.nome = obj.getNome();
-		this.category = obj.getCategory();
+		categories = obj.getCategory().stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
 	}
 	
 	public Integer getId() {
@@ -36,11 +48,7 @@ public class InstitutionDTO implements Serializable {
 		this.nome = nome;
 	}
 	
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
+	public List<CategoryDTO> getCategories() {
+		return categories;
+	}	
 }
