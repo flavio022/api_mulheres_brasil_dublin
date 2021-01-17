@@ -26,10 +26,10 @@ public class CategoryDTO implements Serializable{
 		
 	}
 
-	public CategoryDTO(Category obj) {
-		id = obj.getId();
-		nome = obj.getNome();
-		institutions = obj.getInstitutions();
+	public CategoryDTO(Category entity) {
+		id = entity.getId();
+		nome = entity.getNome();
+		institutions = entity.getInstitutions();
 	}
 	
 	public Integer getId() {
@@ -44,5 +44,7 @@ public class CategoryDTO implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+	public List<Institution> getInstitutions(){
+		return institutions;
+	}
 }

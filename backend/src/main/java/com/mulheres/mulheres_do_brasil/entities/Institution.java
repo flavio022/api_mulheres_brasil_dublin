@@ -1,17 +1,18 @@
 package com.mulheres.mulheres_do_brasil.entities;
 
 import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "tb_institution")
 public class Institution implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +22,7 @@ public class Institution implements Serializable {
 	private Integer id;
 	private String nome;
 	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "category_id")
@@ -34,6 +36,7 @@ public class Institution implements Serializable {
 		this.nome = nome;
 		this.category = category;
 	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -46,6 +49,7 @@ public class Institution implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
 	public Category getCategory() {
 		return category;
 	}

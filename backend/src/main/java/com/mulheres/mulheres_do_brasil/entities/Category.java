@@ -17,6 +17,7 @@ import javax.persistence.Table;
 public class Category implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -52,6 +53,10 @@ public class Category implements Serializable{
 	public List<Institution> getInstitutions(){
 		return institutions;
 	}
+	public void setInstitutions(List<Institution> institutions) {
+		this.institutions = institutions;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
