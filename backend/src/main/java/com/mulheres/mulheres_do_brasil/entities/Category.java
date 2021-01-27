@@ -1,42 +1,44 @@
 package com.mulheres.mulheres_do_brasil.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_category")
-public class Category implements Serializable{
+public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, unique = true, nullable = false)
+	private UUID id;
+
 	private String nome;
+	
+	private String imageUri;
 
 	public Category() {
 
 	}
 
-	public Category(Integer id, String nome) {
+	public Category(UUID id, String nome, String imageUri) {
 		this.id = id;
 		this.nome = nome;
+		this.imageUri = imageUri;
 	}
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -48,7 +50,14 @@ public class Category implements Serializable{
 		this.nome = nome;
 	}
 
-	
+	public String getImageUri() {
+		return imageUri;
+	}
+
+	public void setImageUri(String imageUri) {
+		this.imageUri = imageUri;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,7 +82,5 @@ public class Category implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 
 }
