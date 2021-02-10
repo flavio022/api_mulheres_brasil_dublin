@@ -1,7 +1,7 @@
 package com.mulheres.mulheres_do_brasil.config;
 
 public enum BucketName {
-    PROFILE_IMAGE("mulheres-brasil-dublin");
+    PROFILE_IMAGE("mulheres-brasil-dub");
 
     private final String bucketName;
 

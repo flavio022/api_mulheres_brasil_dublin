@@ -14,7 +14,6 @@ export const Content = styled.div`
 
   h1 {
     display: flex;
-
     justify-content: center;
   }
 `;

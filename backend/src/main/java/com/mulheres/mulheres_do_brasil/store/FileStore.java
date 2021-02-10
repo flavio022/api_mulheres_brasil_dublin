@@ -39,13 +39,12 @@ public class FileStore {
             throw new IllegalStateException("Filed to store file to S3", e);
         }
     }
-        public byte[] download(String path, String key) {
-            try {
-                S3Object object = s3.getObject(path, key);
-                return IOUtils.toByteArray(object.getObjectContent());
-            }
-            catch (AmazonServiceException | IOException e) {
-                throw new IllegalStateException("Failed to download file to s3", e);
-            }
+    public byte[] download(String path, String key) {
+        try {
+            S3Object object = s3.getObject(path, key);
+            return IOUtils.toByteArray(object.getObjectContent());
+        } catch (AmazonServiceException | IOException e) {
+            throw new IllegalStateException("Failed to download file to s3", e);
+        }
     }
 }

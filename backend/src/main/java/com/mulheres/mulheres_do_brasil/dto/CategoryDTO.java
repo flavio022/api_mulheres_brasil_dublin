@@ -32,7 +32,7 @@ public class CategoryDTO implements Serializable{
 	public CategoryDTO(Category entity) {
 		id = entity.getId();
 		nome = entity.getNome();
-		imageUri = entity.getImageUri();
+		imageUri = entity.getImageUri().orElse(null);
 	}
 	
 	public UUID getId() {

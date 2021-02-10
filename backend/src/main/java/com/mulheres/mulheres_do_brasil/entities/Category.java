@@ -5,9 +5,11 @@ import org.hibernate.annotations.GenericGenerator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.*;
+import javax.swing.text.html.Option;
 
 @Entity
 @Table(name = "tb_category")
@@ -31,9 +33,10 @@ public class Category implements Serializable {
 	public Category(UUID id, String nome, String imageUri) {
 		this.id = id;
 		this.nome = nome;
+		
 		this.imageUri = imageUri;
 	}
-
+	
 	public UUID getId() {
 		return id;
 	}
@@ -50,8 +53,8 @@ public class Category implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getImageUri() {
-		return imageUri;
+	public Optional<String> getImageUri() {
+		return Optional.ofNullable(imageUri);
 	}
 
 	public void setImageUri(String imageUri) {

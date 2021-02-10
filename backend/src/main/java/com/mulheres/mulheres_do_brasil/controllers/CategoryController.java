@@ -33,13 +33,7 @@ public class CategoryController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
-	@PostMapping(path = "/{id}/image/upload",
-			consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public void uploadImage(@PathVariable("id") UUID id,
-							@RequestParam("file") MultipartFile file){
-		categoryService.uploadImage(id,file);
-	}
+
 	@GetMapping
 	public ResponseEntity<List<CategoryDTO>> findAll() {
 		List<CategoryDTO> list = categoryService.listAll();

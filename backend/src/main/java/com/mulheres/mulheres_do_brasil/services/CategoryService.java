@@ -57,7 +57,7 @@ public class CategoryService {
 		Map<String, String> metadata = extractMetadata(file);
 
 		String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(),category.getId());
-		String filename = String.format("%s/%s",file.getOriginalFilename(),UUID.randomUUID());
+		String filename = String.format("%s",file.getOriginalFilename());
 
 		try{
 			fileStore.save(path,filename,Optional.of(metadata),file.getInputStream());
@@ -97,4 +97,15 @@ public class CategoryService {
 		return category.orElseThrow(() -> null);
 	}
 
+	public byte[] dowloadImage(UUID id) {
+		Optional<Category> obj = categoryRepository.findById(id);
+		Category category = obj.get();
+		String path = String.format("%s/%s",
+				BucketName.PROFILE_IMAGE.getBucketName(),
+				category.getId());
+
+		return category.getImageUri()
+				.map(key -> fileStore.download(path, key))
+				.orElse(new byte[0]);
+	}
 }
