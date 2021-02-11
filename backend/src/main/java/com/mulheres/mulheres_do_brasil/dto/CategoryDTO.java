@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.mulheres.mulheres_do_brasil.entities.Category;
 import com.mulheres.mulheres_do_brasil.entities.Institution;
+import com.mulheres.mulheres_do_brasil.entities.User;
 
 public class CategoryDTO implements Serializable{
 
@@ -34,7 +35,8 @@ public class CategoryDTO implements Serializable{
 		nome = entity.getNome();
 		imageUri = entity.getImageUri().orElse(null);
 	}
-	
+
+
 	public UUID getId() {
 		return id;
 	}
