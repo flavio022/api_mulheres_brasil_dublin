@@ -37,9 +37,13 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     private void userAuthentication(String token) {
         UUID userId = UUID.fromString(tokenService.getUserId(token));
+        System.out.println(userId);
         User user = userRepository.findById(userId).get();
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,null);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(user.getPassword());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
+        if(authentication !=null){
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
 
     private String getToken(HttpServletRequest request){
