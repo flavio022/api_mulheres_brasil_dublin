@@ -1,13 +1,17 @@
 package com.mulheres.mulheres_do_brasil.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User  implements UserDetails {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,13 +65,44 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getPassword() {
-        return password;
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     @Override
     public boolean equals(Object o) {
