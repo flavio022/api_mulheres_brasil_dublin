@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.amazonaws.services.applicationautoscaling.model.ObjectNotFoundException;
 import com.mulheres.mulheres_do_brasil.config.BucketName;
 import com.mulheres.mulheres_do_brasil.store.FileStore;
 import org.apache.http.entity.ContentType;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,7 @@ public class CategoryService {
 	private final CategoryRepository categoryRepository;
 	private final InstitutionRepository institutionRepository;
 	private final FileStore fileStore;
+
 	@Autowired
 	public CategoryService(CategoryRepository categoryRepository,
 						   InstitutionRepository institutionRepository,
@@ -45,6 +46,18 @@ public class CategoryService {
 	public List<CategoryDTO> listAll() {		
 		List<Category> list = categoryRepository.findAll();
 		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
+	}
+	public Category find(UUID id){
+		Optional<Category> optional = categoryRepository.findById(id);
+		return optional.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Category.class.getName()));
+	}
+	public void delete(UUID id){
+		try{
+			categoryRepository.deleteById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void uploadImage(UUID id, MultipartFile file) {

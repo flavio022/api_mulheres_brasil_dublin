@@ -26,7 +26,11 @@ public class TokenService {
                 .setIssuedAt(today).setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
+    public User getAuthenticatedUser(Authentication authentication){
+        User userAthenticated = (User) authentication.getPrincipal();
 
+        return userAthenticated;
+    }
     public boolean isTokenValid(String token) {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);

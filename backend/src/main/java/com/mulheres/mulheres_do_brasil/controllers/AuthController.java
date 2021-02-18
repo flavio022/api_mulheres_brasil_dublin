@@ -3,6 +3,7 @@ package com.mulheres.mulheres_do_brasil.controllers;
 import com.mulheres.mulheres_do_brasil.config.security.TokenService;
 import com.mulheres.mulheres_do_brasil.controllers.form.LoginForm;
 import com.mulheres.mulheres_do_brasil.dto.TokenDto;
+import com.mulheres.mulheres_do_brasil.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +33,8 @@ public class AuthController {
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
             String token = tokenService.generateToken(authentication);
-            return ResponseEntity.ok(new TokenDto(token,"Bearer"));
+            User AuthenticatedUserData = tokenService.getAuthenticatedUser(authentication);
+            return ResponseEntity.ok(new TokenDto(token,"Bearer",AuthenticatedUserData));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

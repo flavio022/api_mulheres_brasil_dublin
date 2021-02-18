@@ -6,8 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import com.mulheres.mulheres_do_brasil.entities.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mulheres.mulheres_do_brasil.dto.CategoryDTO;
 import com.mulheres.mulheres_do_brasil.services.CategoryService;
+
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -38,5 +42,11 @@ public class CategoryController {
 	public ResponseEntity<List<CategoryDTO>> findAll() {
 		List<CategoryDTO> list = categoryService.listAll();
 		return ResponseEntity.ok().body(list);
+	}
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> remove(@PathVariable UUID id){
+		System.out.println(id);
+		 categoryService.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }
