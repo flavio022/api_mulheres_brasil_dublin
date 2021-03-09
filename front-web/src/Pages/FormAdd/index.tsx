@@ -1,7 +1,12 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  ChangeEvent
+} from "react";
 import api from "../../services/api";
 import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
-
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
 import Input from "../../components/Input";
@@ -65,6 +70,9 @@ const FormAdd: React.FC = () => {
             </li>
           </ul>
         ))}
+        <label>
+          <input type="file" id="avatar" />
+        </label>
       </Categries>
     </>
   );

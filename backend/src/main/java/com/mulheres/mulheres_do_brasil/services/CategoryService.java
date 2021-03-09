@@ -1,15 +1,12 @@
 package com.mulheres.mulheres_do_brasil.services;
 
-import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import com.amazonaws.services.applicationautoscaling.model.ObjectNotFoundException;
-import com.mulheres.mulheres_do_brasil.config.BucketName;
-import com.mulheres.mulheres_do_brasil.store.FileStore;
-import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,29 +18,29 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CategoryService {
-	
+
 	private final CategoryRepository categoryRepository;
 	private final InstitutionRepository institutionRepository;
-	private final FileStore fileStore;
+	private final S3Service s3Service;
 
 	@Autowired
 	public CategoryService(CategoryRepository categoryRepository,
 						   InstitutionRepository institutionRepository,
-						   FileStore fileStore){
+						   S3Service s3Service){
 		this.categoryRepository = categoryRepository;
 		this.institutionRepository = institutionRepository;
-		this.fileStore = fileStore;
+		this.s3Service = s3Service;
 	}
 	@Transactional
 	public CategoryDTO insert(CategoryDTO dto) {
 		Category category = new Category(null,dto.getNome(),dto.getImageUri());
-		
+
 		category = categoryRepository.save(category);
-		
+
 		return new CategoryDTO(category);
-		
+
 	}
-	public List<CategoryDTO> listAll() {		
+	public List<CategoryDTO> listAll() {
 		List<Category> list = categoryRepository.findAll();
 		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
 	}
@@ -60,65 +57,16 @@ public class CategoryService {
 		}
 	}
 
-	public void uploadImage(UUID id, MultipartFile file) {
-		isFileEmpty(file);
-
-		isImage(file);
-
-		Category category = getCategoryId(id);
-
-		Map<String, String> metadata = extractMetadata(file);
-
-		String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(),category.getId());
-		String filename = String.format("%s",file.getOriginalFilename());
-
-		try{
-			fileStore.save(path,filename,Optional.of(metadata),file.getInputStream());
-			category.setImageUri(filename);
+	public URI uploadImage(UUID id, MultipartFile file) {
+			URI uri  = s3Service.uploadFile(file);
+			Category category = find(id);
+			category.setImageUri(uri.toString());
 			categoryRepository.save(category);
-
-		}catch (IOException e) {
-			throw new IllegalStateException(e);
-		}
-
+			return uri;
 	}
 
-	private void isImage(MultipartFile file) {
-		if (!Arrays.asList(
-				ContentType.IMAGE_JPEG.getMimeType(),
-				ContentType.IMAGE_PNG.getMimeType(),
-				ContentType.IMAGE_GIF.getMimeType()).contains(file.getContentType())) {
-			throw new IllegalStateException("File must be an image [" + file.getContentType() + "]");
-		}
-	}
 
-	private void isFileEmpty(MultipartFile file) {
-		if(file.isEmpty()){
-			throw new IllegalStateException("Cannot upload empty file [" + file.getSize() + "]");
-		}
-	}
 
-	private Map<String, String> extractMetadata(MultipartFile file) {
-		Map<String,String> metadata = new HashMap<>();
-		metadata.put("Content-Type", file.getContentType());
-		metadata.put("Content-Length", String.valueOf(file.getSize()));
-		return metadata;
-	}
-
-	private Category getCategoryId(UUID id) {
-		Optional<Category> category = categoryRepository.findById(id);
-		return category.orElseThrow(() -> null);
-	}
-
-	public byte[] dowloadImage(UUID id) {
-		Optional<Category> obj = categoryRepository.findById(id);
-		Category category = obj.get();
-		String path = String.format("%s/%s",
-				BucketName.PROFILE_IMAGE.getBucketName(),
-				category.getId());
-
-		return category.getImageUri()
-				.map(key -> fileStore.download(path, key))
-				.orElse(new byte[0]);
-	}
 }
+
+

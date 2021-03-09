@@ -6,7 +6,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { AuthContext } from "../../hooks/AuthContext";
 
-import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
+import { FiMail, FiLock } from "react-icons/fi";
 
 import { Container, Content } from "./styled";
 

@@ -21,11 +21,14 @@ interface AuthState {
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+
 const AuthProvider: React.FC = ({ children }) => {
+  var dataAtual = new Date();
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem("@Mulheres:token");
     const user = localStorage.getItem("@Mulheres:user");
-    if (token && user) {
+    const dataStorage = localStorage.getItem("@Mulheres:dataStorage");
+    if (token && user && dataAtual.toLocaleDateString() === dataStorage) {
       api.defaults.headers.authorization = `Bearer ${token}`;
       return { token, user: JSON.parse(user) };
     }
@@ -40,6 +43,10 @@ const AuthProvider: React.FC = ({ children }) => {
     const { token, user } = response.data;
     localStorage.setItem("@Mulheres:token", token);
     localStorage.setItem("@Mulheres:user", JSON.stringify(user));
+    localStorage.setItem(
+      "@Mulheres:dataStorage",
+      dataAtual.toLocaleDateString()
+    );
     api.defaults.headers.authorization = `Bearer ${token}`;
     setData({ token, user });
   }, []);
@@ -55,7 +62,7 @@ const AuthProvider: React.FC = ({ children }) => {
 function UserAuth(): AuthContextData {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("use Auth must be used within an AuthProvider");
+    throw new Error("Use Auth must be used within an AuthProvider");
   }
 
   return context;

@@ -49,4 +49,9 @@ public class CategoryController {
 		 categoryService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	@RequestMapping(value = "/{id}/image",method = RequestMethod.POST)
+	public ResponseEntity<Void> uploadImage(@PathVariable("id") UUID id,@RequestParam(name="file") MultipartFile file){
+		URI uri = categoryService.uploadImage(id,file);
+		return ResponseEntity.created(uri).build();
+	}
 }

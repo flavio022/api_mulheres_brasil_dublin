@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 export const Header = styled.header`
   display: flex;
-  height: 100px;
+  height: 200px;
   align-items: center;
   padding: 10px;
   background: #000080;
   margin-bottom: 15px;
+  justify-content: space-between;
 `;
 
 export const Content = styled.div`
