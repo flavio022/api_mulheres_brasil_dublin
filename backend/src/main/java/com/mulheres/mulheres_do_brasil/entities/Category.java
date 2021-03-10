@@ -3,10 +3,7 @@ package com.mulheres.mulheres_do_brasil.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import javax.persistence.*;
 import javax.swing.text.html.Option;
@@ -25,6 +22,9 @@ public class Category implements Serializable {
 	private String nome;
 	
 	private String imageUri;
+
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	private Set<Institution> institutions = new HashSet<>();
 
 	public Category() {
 
@@ -59,6 +59,13 @@ public class Category implements Serializable {
 
 	public void setImageUri(String imageUri) {
 		this.imageUri = imageUri;
+	}
+
+	public Set<Institution> getInstitutions(){
+		return institutions;
+	}
+	public void setInstitutions(Set<Institution> institutions){
+		this.institutions = institutions;
 	}
 
 	@Override

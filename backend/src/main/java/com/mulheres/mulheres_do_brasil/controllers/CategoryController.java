@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.mulheres.mulheres_do_brasil.entities.Category;
+import com.mulheres.mulheres_do_brasil.entities.Institution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,12 @@ public class CategoryController {
 	public ResponseEntity<List<CategoryDTO>> findAll() {
 		List<CategoryDTO> list = categoryService.listAll();
 		return ResponseEntity.ok().body(list);
+	}
+
+	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
+	public ResponseEntity find(@PathVariable UUID id){
+		Category category = categoryService.find(id);
+		return ResponseEntity.ok().body(category);
 	}
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> remove(@PathVariable UUID id){

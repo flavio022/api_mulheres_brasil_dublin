@@ -28,12 +28,7 @@ interface ISearch {
 }
 export interface ISectionItems {
   id: string;
-  name: string;
-  tel: string;
-  email: string;
-  value: string;
-  description: string;
-  image_url: string;
+  nome: string;
 }
 export interface IOrganizationItems {
   name: string;
@@ -57,7 +52,7 @@ const Section: React.FC = () => {
   const routeParams = route.params as IParams;
 
   useEffect(() => {
-    api.get(`sessionLocale/${routeParams.organization_id}`).then(response => {
+    api.get(`categories/${routeParams.organization_id}`).then(response => {
       SetSection(response.data);
       setData(response.data);
     });
@@ -88,7 +83,6 @@ const Section: React.FC = () => {
             color="#fff"
             onPress={handlernavigateBack}
           />
-          <TextName>{routeParams.nome}</TextName>
         </ContentHeader>
       </Header>
       <SearchBar
@@ -102,12 +96,10 @@ const Section: React.FC = () => {
           data={section}
           renderItem={({ item: section }) => (
             <SectionItem onPress={handleSubmit}>
-              <ImageSelection source={{ uri: section.image_url }} />
+              <ImageSelection source={{ uri: "" }} />
               <TextSession>
-                <TextName>{section.name}</TextName>
-                <Text>Telefone: {section.tel}</Text>
-                <Text>Email: {section.email}</Text>
-                <Text>Valor: {section.value}</Text>
+                <TextName>{section.nome}</TextName>
+
                 <ButtonDetails>
                   <Text>Detalhes</Text>
                 </ButtonDetails>
