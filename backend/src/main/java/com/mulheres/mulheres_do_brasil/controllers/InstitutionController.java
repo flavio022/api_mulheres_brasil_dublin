@@ -9,6 +9,7 @@ import com.mulheres.mulheres_do_brasil.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mulheres.mulheres_do_brasil.dto.InstitutionDTO;
@@ -20,7 +21,6 @@ import com.mulheres.mulheres_do_brasil.services.InstitutionService;
 public class InstitutionController {
 	@Autowired
 	private InstitutionService institutionService;
-
 
 	@PostMapping
 	public ResponseEntity<InstitutionDTO> insert(
@@ -35,10 +35,17 @@ public class InstitutionController {
 
 	@GetMapping
 	public ResponseEntity <List<InstitutionDTO>> findAll(){
-
 		List<InstitutionDTO> list = institutionService.listAll();
 		return ResponseEntity.ok().body(list);
+	}
 
+	@RequestMapping(value = "/{id}/image",method = RequestMethod.POST)
+	public ResponseEntity<Void> uploadImage(
+			@PathVariable("id") UUID id,
+			@RequestParam(name="file") MultipartFile file){
+		URI uri = institutionService.uploadImage(id,file);
+
+		return ResponseEntity.created(uri).build();
 	}
 
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.*;
 
@@ -15,8 +16,9 @@ public class Institution implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, unique = true, nullable = false)
+	private UUID id;
 
 	private String nome;
 	private String description;
@@ -24,6 +26,7 @@ public class Institution implements Serializable {
 	private String email;
 	private String webSite;
 	private String paymentType;
+	private String imageUri;
 
 
 	@JsonIgnore
@@ -34,13 +37,14 @@ public class Institution implements Serializable {
 	public Institution() {
 		
 	}
-	public Institution(Integer id,
+	public Institution(UUID id,
 					   String nome,
 					   String email,
 					   String phone,
 					   String webSite,
 					   String description,
 					   String paymentType,
+					   String imageUri,
 					   Category category) {
 		this.id = id;
 		this.nome = nome;
@@ -49,13 +53,14 @@ public class Institution implements Serializable {
 		this.webSite = webSite;
 		this.description = description;
 		this.paymentType = paymentType;
+		this.imageUri = imageUri;
 		this.category = category;
 	}
 	
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	public String getNome() {
@@ -103,7 +108,12 @@ public class Institution implements Serializable {
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
-
+	public String getImageUri(){
+		return imageUri;
+	}
+	public void setImageUri(String imageUri){
+		this.imageUri = imageUri;
+	}
 	public Category getCategory() {
 		return category;
 	}

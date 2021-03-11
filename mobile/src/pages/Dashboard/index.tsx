@@ -17,7 +17,6 @@ import {
   SectionList,
   TextButton
 } from "./styles";
-import { url } from "inspector";
 
 export interface IOrganizationItems {
   id: number;

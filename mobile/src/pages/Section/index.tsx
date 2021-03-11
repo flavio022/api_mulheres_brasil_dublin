@@ -16,6 +16,7 @@ import {
   SectionList,
   ContentHeader,
   TextName,
+  TextHeader,
   ButtonDetails
 } from "./styles";
 
@@ -29,6 +30,18 @@ interface ISearch {
 export interface ISectionItems {
   id: string;
   nome: string;
+  institutions: [
+    {
+      id: string;
+      nome: string;
+      description: string;
+      phone: string;
+      email: string;
+      webSite: string;
+      paymentType: string;
+      imageUri: string;
+    }
+  ];
 }
 export interface IOrganizationItems {
   name: string;
@@ -66,8 +79,8 @@ const Section: React.FC = () => {
     SetSection(filteredData);
     setQuery(text);
   };
-  const contains = ({ name }: ISectionItems, query) => {
-    if (name.toLowerCase().startsWith(query.toLowerCase())) {
+  const contains = ({ nome }: ISectionItems, query) => {
+    if (nome.toLowerCase().startsWith(query.toLowerCase())) {
       return true;
     }
     return false;
@@ -83,20 +96,19 @@ const Section: React.FC = () => {
             color="#fff"
             onPress={handlernavigateBack}
           />
+          <TextHeader>{section.nome}</TextHeader>
         </ContentHeader>
       </Header>
-      <SearchBar
-        onChangeText={queryText => handleSearch(queryText)}
-        value={query}
-        placeholder="Type Here..."
-      />
-
       <ViewScroll>
         <SectionList
-          data={section}
+          data={section.institutions}
           renderItem={({ item: section }) => (
             <SectionItem onPress={handleSubmit}>
-              <ImageSelection source={{ uri: "" }} />
+              <ImageSelection
+                source={{
+                  uri: section.imageUri
+                }}
+              />
               <TextSession>
                 <TextName>{section.nome}</TextName>
 

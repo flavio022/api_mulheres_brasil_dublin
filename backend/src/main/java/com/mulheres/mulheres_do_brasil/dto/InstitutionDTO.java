@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.persistence.JoinColumn;
@@ -16,13 +17,14 @@ import com.mulheres.mulheres_do_brasil.entities.Institution;
 public class InstitutionDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private UUID id;
 	private String nome;
 	private String description;
 	private String phone;
 	private String email;
 	private String webSite;
 	private String paymentType;
+	private String imageUri;
 
 	private Category category;
 
@@ -39,13 +41,14 @@ public class InstitutionDTO implements Serializable {
 		this.phone = obj.getPhone();
 		this.description = obj.getDescription();
 		this.webSite = obj.getWebSite();
+		this.imageUri = obj.getImageUri();
 		this.paymentType = obj.getPaymentType();
 	}
 	
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	public String getNome() {
@@ -93,5 +96,13 @@ public class InstitutionDTO implements Serializable {
 
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public void setImageUri(String imageUri) {
+		this.imageUri = imageUri;
+	}
+
+	public String getImageUri() {
+		return this.imageUri;
 	}
 }

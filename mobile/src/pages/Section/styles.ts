@@ -11,8 +11,8 @@ export const ContentHeader = styled.View`
   flex-direction: row;
   width: 100%;
   background: #1a1c40;
-  height: 150px;
-  padding-top: 50px;
+  height: 160px;
+  align-items: center;
 `;
 
 export const SectionList = styled(
@@ -33,9 +33,11 @@ export const SectionItem = styled.TouchableOpacity`
 export const Text = styled.Text`
   font-size: 10px;
 `;
+
 export const TextHeader = styled.Text`
-  font-size: 25px;
+  font-size: 20px;
   color: #fff;
+  padding-left: 10px;
 `;
 
 export const ImageSelection = styled.Image`
